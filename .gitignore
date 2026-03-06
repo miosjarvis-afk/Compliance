@@ -1,0 +1,46 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+.next
+dist
+build
+out
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker/.env
+docker/caddy_data
+docker/caddy_config
+
+# Database
+packages/database/migrations/*_init
+*.db
+
+# Uploads
+uploads/
+public/uploads/
+
+# Testing
+coverage
+.nyc_output

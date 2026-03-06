@@ -1,0 +1,20 @@
+{
+    auto_https off
+}
+
+# API - Backend
+trustlayer-api.yourdomain.com {
+    reverse_proxy api:4000
+}
+
+# Web - Frontend
+trustlayer.yourdomain.com {
+    reverse_proxy web:3000
+}
+
+# Meilisearch (protected, internal only)
+trustlayer-search.yourdomain.com {
+    @denied not remote_ip 127.0.0.1 ::1
+    respond @denied 403
+    reverse_proxy meilisearch:7700
+}
