@@ -4,14 +4,17 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   
-  // GitHub Pages base path (repo name)
-  basePath: process.env.NODE_ENV === 'production' ? '/compliance' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/compliance/' : '',
+  // GitHub Pages base path (repo name is 'Compliance' with capital C)
+  basePath: '/Compliance',
+  assetPrefix: '/Compliance/',
   
   // Images must be unoptimized for static export
   images: {
     unoptimized: true,
   },
+  
+  // Trailing slash for static export
+  trailingSlash: true,
   
   // Ready for future API integration
   // When switching to full-stack:
