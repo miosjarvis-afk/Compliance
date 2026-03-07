@@ -4,10 +4,9 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   
-  // Try without basePath first (for custom domain or root)
-  // If using username.github.io/repo-name, uncomment below:
-  // basePath: '/compliance',
-  // assetPrefix: '/compliance/',
+  // GitHub Pages base path (repo name is 'compliance')
+  basePath: '/compliance',
+  assetPrefix: '/compliance/',
   
   // Images must be unoptimized for static export
   images: {
