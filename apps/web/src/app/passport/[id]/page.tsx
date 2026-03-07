@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,12 +12,20 @@ import {
   CheckCircle2,
   AlertTriangle,
   ArrowLeft,
-  ExternalLink,
   Download,
   Share2
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+// Generate static params for all project IDs
+export function generateStaticParams() {
+  return [
+    { id: "1" },
+    { id: "2" },
+    { id: "4" },
+  ];
+}
 
 interface TrustPassportPageProps {
   params: {
