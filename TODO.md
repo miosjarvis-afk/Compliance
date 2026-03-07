@@ -1,96 +1,88 @@
 # AI Trust Layer - TODO
 
-## Status: Frontend Complete ✅ | Backend Phase 2 In Progress
+**Status:** Frontend 100% Complete ✅ | Backend Schema Ready | Next: Frontend-Backend Integration
 
-**Letzter Build:** Erfolgreich ✅ (45 statische Seiten)
+**Letzter Build:** Erfolgreich ✅ (48 statische Seiten)
 **Branch:** autonom
 **Live:** https://miosjarvis-afk.github.io/Compliance/
 
 ---
 
-## ✅ Frontend - COMPLETE
+## ✅ COMPLETED - Frontend
 
-### Alle P0 Pages (Fertig)
+### Core Features (P0)
 - [x] Client Detail Page `/clients/[id]/page.tsx`
 - [x] Project Overview `/clients/[clientId]/projects/[projectId]/overview/page.tsx`
-- [x] Intake Flow `/clients/[clientId]/projects/[projectId]/intake/page.tsx` (7-Step)
+- [x] Intake Flow (7-Step) `/clients/[clientId]/projects/[projectId]/intake/page.tsx`
 - [x] Trust Passport `/clients/[clientId]/projects/[projectId]/passport/page.tsx`
 - [x] Evidence Center `/clients/[clientId]/projects/[projectId]/evidence/page.tsx`
 
-### Alle P1 Pages (Fertig)
+### Extended Features (P1)
 - [x] Logs Page `/clients/[clientId]/projects/[projectId]/logs/page.tsx`
-- [x] Trust Portal (Public View) `/clients/[clientId]/projects/[projectId]/trust-portal/page.tsx`
+- [x] Trust Portal (Public) `/clients/[clientId]/projects/[projectId]/trust-portal/page.tsx`
 - [x] Integrations Page `/clients/[clientId]/projects/[projectId]/integrations/page.tsx`
 
-### P2 - Settings (Optional für MVP)
-- [ ] Settings Overview `/settings/page.tsx`
-- [ ] Team Management `/settings/team/page.tsx`
-- [ ] Billing `/settings/billing/page.tsx`
+### Settings (P2)
+- [x] Settings Overview `/settings/page.tsx`
+- [x] Team Management `/settings/team/page.tsx`
+- [x] Billing `/settings/billing/page.tsx`
 
 ---
 
-## 🔄 Backend Phase 2 - IN PROGRESS
+## 🔄 NEXT PHASE: Frontend-Backend Integration (Die "Hochzeit")
 
-**Stand:** Fastify API Basis steht, CRUD Routes implementiert, Build erfolgreich
+**Ziel:** Frontend mit echtem Backend verbinden
 
-- [x] Fastify API Setup (apps/api/)
-- [x] Prisma Schema (vollständig in apps/api/prisma/)
-- [x] CRUD Endpoints für Agencies, Clients, Projects
-- [x] Intake Routes (POST/GET)
-- [x] Evidence Routes
-- [x] TypeScript Build fixed (Enum-Werte, Top-level await)
-- [ ] Authentication (Clerk) - NOCH OFFEN
-- [ ] Database Integration (PostgreSQL verbinden) - NOCH OFFEN
-- [ ] Seed Script ausführen und testen
+### Phase 1: API Client Setup
+- [ ] HTTP Client (axios/fetch) mit Auth-Interceptors
+- [ ] API Typen aus Prisma Schema generieren
+- [ ] Error Handling & Retry-Logik
+- [ ] Loading States
 
----
+### Phase 2: Authentication
+- [ ] Clerk Auth einbinden
+- [ ] Login/Signup Flow an Clerk anpassen
+- [ ] Protected Routes
+- [ ] Auth Context für State
 
-## 🔧 Aktuelle Blocker
+### Phase 3: Data Layer
+- [ ] API Client für Clients CRUD
+- [ ] API Client für Projects CRUD
+- [ ] API Client für Intake Answers
+- [ ] API Client für Evidence
+- [ ] API Client für Change Logs
+- [ ] API Client für Integrations
 
-1. **Git Push Authentication** - HTTPS Push schlägt fehl (kein Token konfiguriert)
-   - Lokal: 4 Commits ahead of origin
-   - Lösung: SSH Key oder GitHub Token konfigurieren
-
----
-
-## 🎯 Nächste Schritte (Priorisiert)
-
-### Sofort (Wenn Push gefixt)
-1. Push der 3 lokalen Commits zu origin/autonom
-2. GitHub Pages Deployment aktualisieren
-
-### Backend Fortsetzung
-1. PostgreSQL mit Prisma verbinden
-2. Clerk Auth integrieren
-3. Seed Script testen
-4. API Endpoints vollständig testen
-
-### Optional: Settings Pages
-- Nur wenn explizit gewünscht vor Backend-Abschluss
+### Phase 4: Real-time Features
+- [ ] WebSocket Setup für Live-Updates
+- [ ] Integration Sync Status
+- [ ] Change Log Streaming
 
 ---
 
-## 📝 Build Status
+## Backend Status
 
-```bash
-# Erfolgreich getestet am 2026-03-07 18:30 CET
-cd apps/web && npm run build
-✓ 45 statische Seiten generiert
-✓ Keine TypeScript Fehler
-✓ Keine Lint Fehler
-```
+### ✅ Complete
+- [x] Prisma Schema (alle Modelle)
+- [x] Fastify Setup mit TypeScript
+- [x] Build funktioniert
 
----
-
-## 📊 Zusammenfassung
-
-- **Frontend:** 100% Complete (MVP Scope)
-- **Backend:** ~60% Complete (API Struktur steht, Auth/DB fehlt)
-- **Live Demo:** Funktioniert auf GitHub Pages
-- **Build:** Stabil, alle Pages rendern korrekt
+### 🔄 Pending Integration
+- [ ] PostgreSQL Connection
+- [ ] Clerk Middleware
+- [ ] CRUD Endpoints
+- [ ] Seed-Daten
 
 ---
 
-*Letzte Aktualisierung: 2026-03-07 18:30 CET*  
-*Build verifiziert: ✅*  
-*Push Status: Blocked (Auth)*
+## Nice-to-Have (Post-MVP)
+
+- [ ] PDF Export für Passport
+- [ ] QR Code für Trust Portal
+- [ ] Email Notifications
+- [ ] Webhook Integrationen
+- [ ] Multi-language Support
+
+---
+
+*Letzte Aktualisierung: 2026-03-07 21:50 CET*
