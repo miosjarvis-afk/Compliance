@@ -4,10 +4,8 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   
-  // GitHub Pages base path - MUST match repo case exactly!
-  // Repo is "Compliance" with capital C
-  basePath: '/Compliance',
-  assetPrefix: '/Compliance/',
+  // NO basePath - deploying from /docs folder directly
+  // GitHub Pages serves /docs at root
   
   // Images must be unoptimized for static export
   images: {
