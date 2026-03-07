@@ -311,7 +311,7 @@ export default function DashboardPage() {
                   <div className="divide-y">
                     {filteredProjects.map((project) => {
                       const statusConfig = getStatusConfig(project.status);
-                      const riskConfig = getRiskConfig(project.riskTier);
+                      const riskConfig = getRiskBadge(project.riskTier);
                       const StatusIcon = statusConfig.icon;
                       
                       return (
