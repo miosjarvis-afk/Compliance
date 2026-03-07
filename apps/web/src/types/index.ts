@@ -8,6 +8,12 @@ export interface Agency {
   teamSize?: string;
   primaryRegion?: string;
   focus?: string[];
+  website?: string;
+  industry?: string;
+  region?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
 }
 
 export interface Client {

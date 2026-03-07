@@ -9,7 +9,9 @@ interface AppState {
   login: (email: string, password: string) => boolean;
   logout: () => void;
   agency: Agency | null;
+  currentAgency: Agency | null;
   setAgency: (agency: Agency) => void;
+  updateAgency: (updates: Partial<Agency>) => void;
   clients: Client[];
   addClient: (client: Omit<Client, "id" | "createdAt">) => void;
   updateClient: (id: string, updates: Partial<Client>) => void;
@@ -54,6 +56,7 @@ export const useStore = create<AppState>()(
       currentUser: null,
       isAuthenticated: false,
       agency: null,
+      currentAgency: null,
       clients: [],
       projects: [],
       evidenceItems: [],
@@ -63,12 +66,20 @@ export const useStore = create<AppState>()(
       intakeAnswers: [],
       onboardingComplete: false,
 
+      updateAgency: (updates) => {
+        set((state) => ({
+          agency: state.agency ? { ...state.agency, ...updates } : null,
+          currentAgency: state.currentAgency ? { ...state.currentAgency, ...updates } : null,
+        }));
+      },
+
       login: (email, password) => {
         if (email && password) {
           set({ 
             currentUser: mockUser,
             isAuthenticated: true,
             agency: mockAgency,
+            currentAgency: mockAgency,
             clients: mockClients,
             projects: mockProjects,
             evidenceItems: mockEvidenceItems,
