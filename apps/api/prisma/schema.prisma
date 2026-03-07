@@ -109,6 +109,7 @@ model Project {
   evidenceItems     EvidenceItem[]
   changeLogs        ChangeLog[]
   integrations      Integration[]
+  trustPassport     TrustPassport?
   
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -348,6 +349,7 @@ model TrustPassport {
   
   // Relations
   projectId   String    @unique
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   
   // Public URL
   publicToken String    @unique @default(cuid())

@@ -1,5 +1,5 @@
 // Project Service - Business logic for Project operations
-import { PrismaClient, RiskLevel } from '@prisma/client';
+import { PrismaClient, RiskLevel, ProjectStatus } from '@prisma/client';
 import type { CreateProjectInput, UpdateProjectInput, CreateIntakeAnswerInput } from '../types/schemas.js';
 
 const prisma = new PrismaClient();
@@ -46,20 +46,36 @@ export class ProjectService {
           orderBy: { createdAt: 'desc' },
           take: 10
         },
-        trustPortal: true,
+        trustPassport: true,
       },
     });
   }
 
   async create(data: CreateProjectInput) {
+    // Get agency from client
+    const client = await prisma.client.findUnique({
+      where: { id: data.clientId },
+      select: { agencyId: true }
+    });
+    
+    if (!client) {
+      throw new Error('Client not found');
+    }
+    
     // Create project with initial compliance summary
     const project = await prisma.project.create({
       data: {
-        ...data,
+        name: data.name,
+        clientId: data.clientId,
+        agencyId: client.agencyId,
+        description: data.description,
+        owner: data.owner || '',
+        type: data.type.toUpperCase().replace('-', '_') as any,
+        status: (data.status || 'DRAFT').toUpperCase() as any,
         complianceSummary: {
           create: {
             trustScore: 0,
-            riskLevel: RiskLevel.green,
+            riskLevel: RiskLevel.GREEN,
             transparencyRequired: false,
             personalDataInvolved: false,
             sensitiveDataInvolved: false,
@@ -68,10 +84,11 @@ export class ProjectService {
             missingItems: [],
           }
         },
-        trustPortal: {
+        trustPassport: {
           create: {
-            token: `portal-${Date.now()}`,
-            isActive: true,
+            publicToken: `portal-${Date.now()}`,
+            isPublic: true,
+            content: '{}',
           }
         }
       },
@@ -84,9 +101,16 @@ export class ProjectService {
   }
 
   async update(id: string, data: UpdateProjectInput) {
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.description) updateData.description = data.description;
+    if (data.owner) updateData.owner = data.owner;
+    if (data.type) updateData.type = data.type.toUpperCase().replace('-', '_') as any;
+    if (data.status) updateData.status = data.status.toUpperCase() as any;
+    
     return prisma.project.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 
@@ -97,13 +121,19 @@ export class ProjectService {
   }
 
   async updateTrustScore(id: string) {
-    const project = await this.findById(id);
+    const project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        evidenceItems: true,
+        complianceSummary: true,
+      }
+    });
     if (!project) return null;
 
     // Calculate trust score based on various factors
     let score = 0;
     const evidence = project.evidenceItems || [];
-    const readyEvidence = evidence.filter(e => e.status === 'ready').length;
+    const readyEvidence = evidence.filter(e => e.status === 'READY').length;
     const totalEvidence = evidence.length;
     
     if (totalEvidence > 0) {
@@ -120,13 +150,11 @@ export class ProjectService {
     }
 
     // Update the score
-    const updated = await prisma.project.update({
-      where: { id },
+    const updated = await prisma.complianceSummary.update({
+      where: { projectId: id },
       data: { 
         trustScore: Math.min(score, 100),
-        completionPercentage: totalEvidence > 0 ? Math.round((readyEvidence / totalEvidence) * 100) : 0
       },
-      include: { complianceSummary: true }
     });
 
     return updated;
@@ -141,22 +169,32 @@ export class ProjectService {
   }
 
   async saveIntakeAnswer(data: CreateIntakeAnswerInput) {
-    return prisma.intakeAnswer.upsert({
+    const existing = await prisma.intakeAnswer.findUnique({
       where: {
-        projectId_questionKey: {
+        projectId_section_questionKey: {
           projectId: data.projectId,
+          section: data.section,
           questionKey: data.questionKey,
         }
-      },
-      update: {
-        answer: JSON.stringify(data.answer),
-        section: data.section,
-      },
-      create: {
+      }
+    });
+    
+    if (existing) {
+      return prisma.intakeAnswer.update({
+        where: { id: existing.id },
+        data: {
+          answerValue: JSON.stringify(data.answer),
+        },
+      });
+    }
+    
+    return prisma.intakeAnswer.create({
+      data: {
         projectId: data.projectId,
         section: data.section,
         questionKey: data.questionKey,
-        answer: JSON.stringify(data.answer),
+        answerValue: JSON.stringify(data.answer),
+        answerType: 'STRING',
       },
     });
   }
@@ -206,7 +244,7 @@ export class ProjectService {
         },
         _count: { id: true }
       }),
-      prisma.changeLogItem.findMany({
+      prisma.changeLog.findMany({
         where: {
           project: { clientId: { in: clientIds } }
         },

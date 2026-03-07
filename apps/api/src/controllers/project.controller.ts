@@ -105,10 +105,11 @@ export class ProjectController {
     }
   }
 
-  async saveIntakeAnswer(request: FastifyRequest<{ Params: { id: string }; Body: any }>, reply: FastifyReply) {
+  async saveIntakeAnswer(request: FastifyRequest<{ Params: { id: string }; Body: Record<string, unknown> }>, reply: FastifyReply) {
     try {
       const { id } = request.params;
-      const data = { ...request.body, projectId: id };
+      const body = request.body || {};
+      const data = { ...body, projectId: id };
       const validated = createIntakeAnswerSchema.parse(data);
       const answer = await projectService.saveIntakeAnswer(validated);
       return reply.send({ data: answer });

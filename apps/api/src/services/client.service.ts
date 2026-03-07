@@ -55,14 +55,32 @@ export class ClientService {
 
   async create(data: CreateClientInput) {
     return prisma.client.create({
-      data,
+      data: {
+        name: data.name,
+        agencyId: data.agencyId,
+        industry: data.industry,
+        website: data.website,
+        contactName: data.contactName,
+        contactEmail: data.contactEmail,
+        region: data.region,
+        riskSensitivity: data.riskSensitivity.toUpperCase() as any,
+      },
     });
   }
 
   async update(id: string, data: UpdateClientInput) {
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.industry) updateData.industry = data.industry;
+    if (data.website) updateData.website = data.website;
+    if (data.contactName) updateData.contactName = data.contactName;
+    if (data.contactEmail) updateData.contactEmail = data.contactEmail;
+    if (data.region) updateData.region = data.region;
+    if (data.riskSensitivity) updateData.riskSensitivity = data.riskSensitivity.toUpperCase() as any;
+    
     return prisma.client.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 

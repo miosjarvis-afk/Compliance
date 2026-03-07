@@ -32,15 +32,26 @@ export class AgencyService {
   }
 
   async create(data: CreateAgencyInput) {
+    const slug = data.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
     return prisma.agency.create({
-      data,
+      data: {
+        name: data.name,
+        slug,
+        industryFocus: data.industryFocus,
+        plan: data.plan.toUpperCase() as any,
+      },
     });
   }
 
   async update(id: string, data: UpdateAgencyInput) {
+    const updateData: any = {};
+    if (data.name) updateData.name = data.name;
+    if (data.industryFocus) updateData.industryFocus = data.industryFocus;
+    if (data.plan) updateData.plan = data.plan.toUpperCase() as any;
+    
     return prisma.agency.update({
       where: { id },
-      data,
+      data: updateData,
     });
   }
 
