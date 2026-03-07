@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: autonom
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -39,6 +41,9 @@ jobs:
 
       - name: Build with Next.js
         run: npm run build
+
+      - name: Create CNAME file
+        run: echo "trustlayer.demo" > ./dist/CNAME || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -55,3 +60,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
