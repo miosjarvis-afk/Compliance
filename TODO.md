@@ -34,10 +34,10 @@
 **Ziel:** Frontend mit echtem Backend verbinden
 
 ### Phase 1: API Client Setup
-- [ ] HTTP Client (axios/fetch) mit Auth-Interceptors
-- [ ] API Typen aus Prisma Schema generieren
-- [ ] Error Handling & Retry-Logik
-- [ ] Loading States
+- [x] HTTP Client (axios/fetch) mit Auth-Interceptors
+- [x] API Typen aus Prisma Schema generieren
+- [x] Error Handling & Retry-Logik
+- [x] Loading States
 
 ### Phase 2: Authentication
 - [ ] Clerk Auth einbinden
@@ -46,12 +46,12 @@
 - [ ] Auth Context für State
 
 ### Phase 3: Data Layer
-- [ ] API Client für Clients CRUD
-- [ ] API Client für Projects CRUD
-- [ ] API Client für Intake Answers
-- [ ] API Client für Evidence
-- [ ] API Client für Change Logs
-- [ ] API Client für Integrations
+- [x] API Client für Clients CRUD
+- [x] API Client für Projects CRUD
+- [x] API Client für Intake Answers
+- [x] API Client für Evidence
+- [x] API Client für Change Logs
+- [x] API Client für Integrations
 
 ### Phase 4: Real-time Features
 - [ ] WebSocket Setup für Live-Updates
@@ -85,4 +85,4 @@
 
 ---
 
-*Letzte Aktualisierung: 2026-03-07 21:50 CET*
+*Letzte Aktualisierung: 2026-03-07 23:05 CET*
