@@ -3,8 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - autonom
+      - master
       - main
+      - autonom
   workflow_dispatch:
 
 permissions:
