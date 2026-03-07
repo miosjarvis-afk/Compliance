@@ -1,0 +1,331 @@
+// AI Trust Layer - Database Schema
+// Foundation for all data models
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============== ENUMS ==============
+
+enum Plan {
+  starter
+  pro
+  enterprise
+}
+
+enum RiskSensitivity {
+  low
+  medium
+  high
+}
+
+enum ProjectType {
+  chatbot
+  voice_agent
+  internal_copilot
+  workflow_automation
+  other
+}
+
+enum ProjectStatus {
+  draft
+  intake_in_progress
+  review_needed
+  trust_ready
+  live
+}
+
+enum RiskLevel {
+  green
+  yellow
+  red
+}
+
+enum EvidenceType {
+  system_card
+  subprocessor_register
+  data_flow
+  change_log
+  incident_log
+  literacy_checklist
+  disclosure
+}
+
+enum EvidenceStatus {
+  ready
+  incomplete
+  needs_review
+}
+
+enum ChangeLogType {
+  prompt_update
+  model_change
+  tool_added
+  integration_change
+  policy_update
+}
+
+enum Severity {
+  low
+  medium
+  high
+}
+
+enum IntegrationProvider {
+  n8n
+  zapier
+  make
+  retell
+  vapi
+  openai
+  anthropic
+  custom_webhook
+}
+
+enum IntegrationStatus {
+  connected
+  not_connected
+  sync_needed
+}
+
+enum UserRole {
+  admin
+  editor
+  viewer
+}
+
+enum ActivityType {
+  passport_generated
+  review_requested
+  sync_connected
+  project_created
+  risk_updated
+  integration_added
+}
+
+// ============== MODELS ==============
+
+model Agency {
+  id             String    @id @default(cuid())
+  name           String
+  logoUrl        String?
+  industryFocus  String?
+  plan           Plan      @default(starter)
+  teamSize       String?
+  primaryRegion  String?
+  focus          String[]  @default([])
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  clients        Client[]
+  users          User[]
+
+  @@map("agencies")
+}
+
+model Client {
+  id              String          @id @default(cuid())
+  agencyId        String
+  name            String
+  industry        String
+  website         String?
+  contactName     String?
+  contactEmail    String?
+  region          String?
+  riskSensitivity RiskSensitivity @default(medium)
+  logoUrl         String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  // Relations
+  agency          Agency          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  projects        Project[]
+
+  @@index([agencyId])
+  @@map("clients")
+}
+
+model Project {
+  id                    String           @id @default(cuid())
+  clientId              String
+  name                  String
+  type                  ProjectType
+  status                ProjectStatus    @default(draft)
+  description           String
+  owner                 String
+  riskLevel             RiskLevel?
+  trustScore            Int?             @default(0)
+  completionPercentage  Int?             @default(0)
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @updatedAt
+
+  // Relations
+  client                Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  complianceSummary     ComplianceSummary?
+  intakeAnswers         IntakeAnswer[]
+  evidenceItems         EvidenceItem[]
+  changeLogs            ChangeLogItem[]
+  integrations          Integration[]
+  activities            Activity[]
+  trustPortal           TrustPortal?
+
+  @@index([clientId])
+  @@index([status])
+  @@map("projects")
+}
+
+model ComplianceSummary {
+  id                    String    @id @default(cuid())
+  projectId             String    @unique
+  trustScore            Int       @default(0)
+  riskLevel             RiskLevel @default(green)
+  transparencyRequired  Boolean   @default(false)
+  personalDataInvolved  Boolean   @default(false)
+  sensitiveDataInvolved Boolean   @default(false)
+  humanOversightDefined Boolean   @default(false)
+  subprocessorCount     Int       @default(0)
+  missingItems          String[]  @default([])
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  project               Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("compliance_summaries")
+}
+
+model IntakeAnswer {
+  id          String   @id @default(cuid())
+  projectId   String
+  section     String
+  questionKey String
+  answer      Json     // Stores string, boolean, or string[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, questionKey])
+  @@index([projectId])
+  @@map("intake_answers")
+}
+
+model EvidenceItem {
+  id          String          @id @default(cuid())
+  projectId   String
+  type        EvidenceType
+  title       String
+  status      EvidenceStatus  @default(incomplete)
+  description String?
+  fileUrl     String?
+  fileName    String?
+  mimeType    String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // Relations
+  project     Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([type])
+  @@map("evidence_items")
+}
+
+model ChangeLogItem {
+  id          String        @id @default(cuid())
+  projectId   String
+  type        ChangeLogType
+  description String
+  severity    Severity      @default(low)
+  user        String?
+  metadata    Json?         // Additional context as JSON
+  createdAt   DateTime      @default(now())
+
+  // Relations
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([createdAt])
+  @@map("change_logs")
+}
+
+model Integration {
+  id          String              @id @default(cuid())
+  projectId   String
+  provider    IntegrationProvider
+  status      IntegrationStatus   @default(not_connected)
+  apiKey      String?             // Encrypted
+  webhookUrl  String?
+  endpoint    String?
+  config      Json?               // Provider-specific config
+  lastSync    DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  // Relations
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, provider])
+  @@index([projectId])
+  @@map("integrations")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  agencyId  String
+  email     String   @unique
+  name      String
+  role      UserRole @default(viewer)
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  agency    Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+  @@map("users")
+}
+
+model Activity {
+  id        String       @id @default(cuid())
+  projectId String
+  type      ActivityType
+  project   String       // Project name snapshot
+  user      String?      // User name snapshot
+  metadata  Json?        // Additional context
+  createdAt DateTime     @default(now())
+
+  // Relations
+  projectRef Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([createdAt])
+  @@map("activities")
+}
+
+// For storing trust passport public access tokens
+model TrustPortal {
+  id          String    @id @default(cuid())
+  projectId   String    @unique
+  token       String    @unique // Public access token
+  isActive    Boolean   @default(true)
+  expiresAt   DateTime?
+  viewCount   Int       @default(0)
+  lastViewed  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@map("trust_portals")
+}

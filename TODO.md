@@ -9,25 +9,26 @@ Dies ist die vollständige TODO-Liste für das AI Trust Layer Projekt. Alle Aufg
 ## 🔴 KRITISCH - Phase 1: Backend Foundation
 
 ### 1. Prisma Schema
-**Status:** Noch nicht begonnen  
+**Status:** ✅ ERLEDIGT (2026-03-07)  
 **Aufwand:** ~4h  
 **Ziel:** Datenbank-Schema basierend auf den Mock-Daten
 
-- [ ] `prisma/schema.prisma` erstellen
-- [ ] Models definieren:
-  - [ ] Agency
-  - [ ] Client
-  - [ ] Project/AI System
-  - [ ] User
-  - [ ] ComplianceSummary
-  - [ ] IntakeAnswer
-  - [ ] EvidenceItem
-  - [ ] ChangeLog
-  - [ ] Integration
-  - [ ] Activity
-- [ ] Enums definieren (ProjectStatus, RiskLevel, etc.)
-- [ ] Relations definieren
-- [ ] Migration erstellen: `pnpm db:migrate`
+- [x] `prisma/schema.prisma` erstellt in `packages/database/`
+- [x] Models definiert:
+  - [x] Agency
+  - [x] Client
+  - [x] Project/AI System
+  - [x] User
+  - [x] ComplianceSummary
+  - [x] IntakeAnswer
+  - [x] EvidenceItem
+  - [x] ChangeLogItem
+  - [x] Integration
+  - [x] Activity
+  - [x] TrustPortal (Bonus)
+- [x] Enums definiert (15+ Enums)
+- [x] Relations definiert mit Cascading Deletes
+- [ ] Migration erstellen: `pnpm db:migrate` (pending DB setup)
 
 ### 2. Fastify Backend Setup
 **Status:** Noch nicht begonnen  
