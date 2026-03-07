@@ -17,8 +17,7 @@ import {
   Users,
   FileText,
   Activity,
-  ArrowUpRight,
-  MoreVertical
+  ArrowUpRight
 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -30,8 +29,7 @@ export default function DashboardPage() {
     projects, 
     clients,
     activities,
-    getStats,
-    logout 
+    getStats
   } = useStore();
 
   const stats = getStats();
@@ -105,15 +103,15 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      <!-- Main Content -->
+      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <!-- Welcome -->
+        {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white mb-1">Good morning, {currentUser.name.split(" ")[0]}</h1>
           <p className="text-slate-400">Here's what's happening with your AI projects today.</p>
         </div>
 
-        <!-- Stats Grid -->
+        {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
             <div className="flex items-start justify-between mb-3">
@@ -172,7 +170,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-          <!-- Projects Section -->
+          {/* Projects Section */}
           <div className="lg:col-span-2">
             <div className="bg-white/5 border border-white/10 rounded-2xl">
               <div className="p-6 border-b border-white/10 flex items-center justify-between">
@@ -247,9 +245,9 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <!-- Sidebar -->
+          {/* Sidebar */}
           <div className="space-y-6">
-            <!-- Recent Activity -->
+            {/* Recent Activity */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4">Recent Activity</h3>
               
@@ -267,7 +265,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <!-- Quick Actions -->
+            {/* Quick Actions */}
             <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
               
