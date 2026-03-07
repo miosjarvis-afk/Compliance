@@ -73,12 +73,13 @@ export default function HomePage() {
                 Get Started
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <a
-                href="#features"
-                className="px-8 py-4 border border-white/10 text-white rounded-xl font-medium hover:bg-white/5 transition-colors"
+              <Link
+                href="/login?demo=true"
+                className="px-8 py-4 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-xl font-medium hover:bg-emerald-500/30 transition-colors flex items-center gap-2"
               >
-                Learn More
-              </a>
+                Enter Demo Mode
+                <span className="text-xs bg-emerald-500 text-white px-2 py-0.5 rounded-full">No Login</span>
+              </Link>
             </div>
           </div>
         </div>
