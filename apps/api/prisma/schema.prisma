@@ -1,0 +1,367 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============= AGENCY =============
+
+model Agency {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  logoUrl       String?
+  industryFocus String?
+  plan          Plan      @default(STARTER)
+  
+  // Relations
+  users         User[]
+  clients       Client[]
+  projects      Project[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("agencies")
+}
+
+enum Plan {
+  STARTER
+  PRO
+  ENTERPRISE
+}
+
+// ============= USER =============
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  role      UserRole @default(MEMBER)
+  
+  // Relations
+  agencyId  String
+  agency    Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+}
+
+// ============= CLIENT =============
+
+model Client {
+  id              String           @id @default(cuid())
+  name            String
+  industry        String
+  website         String?
+  contactName     String?
+  contactEmail    String?
+  region          String?
+  riskSensitivity RiskSensitivity  @default(MEDIUM)
+  
+  // Relations
+  agencyId        String
+  agency          Agency           @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  projects        Project[]
+  
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  @@map("clients")
+}
+
+enum RiskSensitivity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+// ============= PROJECT / AI SYSTEM =============
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  type        ProjectType
+  status      ProjectStatus @default(DRAFT)
+  owner       String
+  
+  // Relations
+  clientId    String
+  client      Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  agencyId    String
+  agency      Agency        @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  
+  // Compliance
+  complianceSummary ComplianceSummary?
+  intakeAnswers     IntakeAnswer[]
+  evidenceItems     EvidenceItem[]
+  changeLogs        ChangeLog[]
+  integrations      Integration[]
+  
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  @@map("projects")
+}
+
+enum ProjectType {
+  CHATBOT
+  VOICE_AGENT
+  INTERNAL_COPILOT
+  WORKFLOW_AUTOMATION
+  RECRUITING_AI
+  SUPPORT_AI
+  OTHER
+}
+
+enum ProjectStatus {
+  DRAFT
+  INTAKE_IN_PROGRESS
+  REVIEW_NEEDED
+  TRUST_READY
+  LIVE
+  ARCHIVED
+}
+
+// ============= COMPLIANCE SUMMARY =============
+
+model ComplianceSummary {
+  id                     String   @id @default(cuid())
+  
+  // Relations
+  projectId              String   @unique
+  project                Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  // Trust Metrics
+  trustScore             Int      @default(0)
+  riskLevel              RiskLevel @default(YELLOW)
+  
+  // Flags
+  transparencyRequired   Boolean  @default(false)
+  personalDataInvolved   Boolean  @default(false)
+  sensitiveDataInvolved  Boolean  @default(false)
+  humanOversightDefined  Boolean  @default(false)
+  
+  // Counts
+  subprocessorCount      Int      @default(0)
+  missingItems           String[] @default([])
+  
+  updatedAt              DateTime @updatedAt
+  
+  @@map("compliance_summaries")
+}
+
+enum RiskLevel {
+  GREEN
+  YELLOW
+  RED
+}
+
+// ============= INTAKE ANSWER =============
+
+model IntakeAnswer {
+  id          String    @id @default(cuid())
+  
+  // Relations
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  // Question
+  section     String
+  questionKey String
+  
+  // Answer (stored as JSON to handle different types)
+  answerValue String    // JSON stringified
+  answerType  AnswerType
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@unique([projectId, section, questionKey])
+  @@map("intake_answers")
+}
+
+enum AnswerType {
+  STRING
+  BOOLEAN
+  STRING_ARRAY
+  NUMBER
+}
+
+// ============= EVIDENCE ITEM =============
+
+model EvidenceItem {
+  id          String           @id @default(cuid())
+  title       String
+  type        EvidenceType
+  status      EvidenceStatus @default(INCOMPLETE)
+  content     String?          // JSON or markdown content
+  fileUrl     String?
+  
+  // Relations
+  projectId   String
+  project     Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  @@map("evidence_items")
+}
+
+enum EvidenceType {
+  SYSTEM_CARD
+  SUBPROCESSOR_REGISTER
+  DATA_FLOW
+  CHANGE_LOG
+  INCIDENT_LOG
+  LITERACY_CHECKLIST
+  DISCLOSURE
+}
+
+enum EvidenceStatus {
+  INCOMPLETE
+  READY
+  NEEDS_REVIEW
+}
+
+// ============= CHANGE LOG =============
+
+model ChangeLog {
+  id          String       @id @default(cuid())
+  type        ChangeType
+  description String
+  severity    Severity     @default(LOW)
+  
+  // Relations
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime     @default(now())
+  
+  @@map("change_logs")
+}
+
+enum ChangeType {
+  PROMPT_UPDATE
+  MODEL_CHANGE
+  TOOL_ADDED
+  INTEGRATION_CHANGE
+  POLICY_UPDATE
+  CONFIG_CHANGE
+  DATA_CHANGE
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// ============= INTEGRATION =============
+
+model Integration {
+  id          String              @id @default(cuid())
+  provider    IntegrationProvider
+  status      IntegrationStatus   @default(NOT_CONNECTED)
+  config      String?             // JSON configuration
+  lastSync    DateTime?
+  
+  // Relations
+  projectId   String
+  project     Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  
+  @@map("integrations")
+}
+
+enum IntegrationProvider {
+  N8N
+  ZAPIER
+  MAKE
+  RETELL
+  VAPI
+  OPENAI
+  ANTHROPIC
+  CUSTOM_WEBHOOK
+}
+
+enum IntegrationStatus {
+  NOT_CONNECTED
+  CONNECTED
+  SYNC_NEEDED
+  ERROR
+}
+
+// ============= ACTIVITY =============
+
+model Activity {
+  id          String       @id @default(cuid())
+  type        ActivityType
+  description String
+  metadata    String?      // JSON metadata
+  
+  // Relations
+  agencyId    String
+  projectId   String?
+  userId      String?
+  
+  createdAt   DateTime     @default(now())
+  
+  @@map("activities")
+}
+
+enum ActivityType {
+  PROJECT_CREATED
+  PROJECT_UPDATED
+  PROJECT_DELETED
+  CLIENT_CREATED
+  CLIENT_UPDATED
+  INTAKE_COMPLETED
+  PASSPORT_GENERATED
+  EVIDENCE_ADDED
+  EVIDENCE_UPDATED
+  INTEGRATION_CONNECTED
+  INTEGRATION_SYNCED
+  USER_INVITED
+  USER_JOINED
+}
+
+// ============= TRUST PASSPORT (Public) =============
+
+model TrustPassport {
+  id          String    @id @default(cuid())
+  
+  // Relations
+  projectId   String    @unique
+  
+  // Public URL
+  publicToken String    @unique @default(cuid())
+  isPublic    Boolean   @default(false)
+  
+  // Content (auto-generated from project data)
+  content     String    // JSON with all passport data
+  
+  // Stats
+  viewCount   Int       @default(0)
+  lastViewed  DateTime?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@map("trust_passports")
+}

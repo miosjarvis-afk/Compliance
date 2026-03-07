@@ -395,3 +395,17 @@ export const mockUser = {
   agencyId: "agency-1",
   role: "admin" as const,
 };
+
+export function generateComplianceSummary(project: Project): ComplianceSummary {
+  return mockComplianceSummaries[project.id] || {
+    projectId: project.id,
+    trustScore: project.trustScore || 0,
+    riskLevel: project.riskLevel || "green",
+    transparencyRequired: true,
+    personalDataInvolved: false,
+    sensitiveDataInvolved: false,
+    humanOversightDefined: false,
+    subprocessorCount: 0,
+    missingItems: ["Complete intake questionnaire"],
+  };
+}
