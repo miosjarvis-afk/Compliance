@@ -31,13 +31,14 @@
 
 ## 🔄 Backend Phase 2 - IN PROGRESS
 
-**Stand:** Fastify API Basis steht, CRUD Routes implementiert
+**Stand:** Fastify API Basis steht, CRUD Routes implementiert, Build erfolgreich
 
 - [x] Fastify API Setup (apps/api/)
-- [x] Prisma Schema (Basis in packages/database/)
+- [x] Prisma Schema (vollständig in apps/api/prisma/)
 - [x] CRUD Endpoints für Agencies, Clients, Projects
 - [x] Intake Routes (POST/GET)
 - [x] Evidence Routes
+- [x] TypeScript Build fixed (Enum-Werte, Top-level await)
 - [ ] Authentication (Clerk) - NOCH OFFEN
 - [ ] Database Integration (PostgreSQL verbinden) - NOCH OFFEN
 - [ ] Seed Script ausführen und testen
@@ -47,7 +48,7 @@
 ## 🔧 Aktuelle Blocker
 
 1. **Git Push Authentication** - HTTPS Push schlägt fehl (kein Token konfiguriert)
-   - Lokal: 3 Commits ahead of origin
+   - Lokal: 4 Commits ahead of origin
    - Lösung: SSH Key oder GitHub Token konfigurieren
 
 ---
