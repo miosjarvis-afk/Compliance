@@ -4,7 +4,7 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   
-  // GitHub Pages base path (repo name is 'compliance')
+  // GitHub Pages base path for project site (username.github.io/repo-name)
   basePath: '/compliance',
   assetPrefix: '/compliance/',
   
