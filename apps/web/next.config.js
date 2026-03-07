@@ -4,8 +4,9 @@ const nextConfig = {
   output: 'export',
   distDir: 'dist',
   
-  // NO basePath - deploying from /docs folder directly
-  // GitHub Pages serves /docs at root
+  // GitHub Pages base path (repo name)
+  basePath: '/Compliance',
+  assetPrefix: '/Compliance',
   
   // Images must be unoptimized for static export
   images: {
