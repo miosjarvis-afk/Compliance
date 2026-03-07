@@ -1,24 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
 import { 
   Shield, 
-  FileCheck, 
-  Users, 
-  Zap, 
-  ArrowRight,
+  ArrowRight, 
+  Check,
   Sparkles,
+  Zap,
+  FileCheck,
+  Users,
   Globe,
   Lock,
   Activity,
   ChevronRight,
-  Star,
   Menu,
-  X
+  X,
+  Play
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -32,103 +32,117 @@ export default function Home() {
     {
       icon: FileCheck,
       title: "Living Trust Passport",
-      description: "Auto-generated compliance docs that evolve with your AI systems.",
-      color: "from-blue-500 to-cyan-400"
+      description: "Auto-generated compliance documentation that evolves with your AI systems in real-time.",
     },
     {
       icon: Users,
-      title: "Client-Ready Portal",
-      description: "White-label trust profiles your enterprise clients can actually understand.",
-      color: "from-violet-500 to-purple-400"
+      title: "Client Portal",
+      description: "White-label trust profiles your enterprise clients can understand and verify instantly.",
     },
     {
       icon: Zap,
       title: "Auto-Sync",
-      description: "Connect n8n, Retell, OpenAI. Track every change automatically.",
-      color: "from-amber-500 to-orange-400"
+      description: "Connect your stack once. Every change tracked automatically without manual work.",
     },
     {
       icon: Shield,
       title: "AI Act Ready",
-      description: "Built for EU AI Act, DSGVO, and whatever regulation comes next.",
-      color: "from-emerald-500 to-teal-400"
+      description: "Built for EU AI Act, DSGVO, and upcoming regulations. Stay ahead of compliance.",
     },
     {
       icon: Lock,
       title: "Evidence Engine",
-      description: "Generate System Cards, ROPA, DPIA triggers automatically.",
-      color: "from-rose-500 to-pink-400"
+      description: "Generate System Cards, ROPA, DPIA triggers. Documentation on autopilot.",
     },
     {
       icon: Globe,
-      title: "Public Trust Portal",
-      description: "Give clients a shareable URL proving your AI is enterprise-ready.",
-      color: "from-indigo-500 to-blue-400"
+      title: "Public Trust",
+      description: "Shareable URLs that prove your AI is enterprise-ready. Close deals faster.",
     }
   ];
 
-  const stats = [
-    { value: "10x", label: "Faster" },
-    { value: "80%", label: "Less Work" },
-    { value: "50+", label: "Agencies" },
-    { value: "100%", label: "EU Ready" },
+  const steps = [
+    { 
+      number: "01", 
+      title: "Connect", 
+      description: "Link your AI systems via API or manual setup in under 5 minutes." 
+    },
+    { 
+      number: "02", 
+      title: "Assess", 
+      description: "Answer guided questions. Our AI classifies risk and generates required docs." 
+    },
+    { 
+      number: "03", 
+      title: "Generate", 
+      description: "Living Trust Passport created instantly. Always current, always compliant." 
+    },
+    { 
+      number: "04", 
+      title: "Scale", 
+      description: "Share with clients. Win enterprise deals. Focus on building, not paperwork." 
+    },
   ];
 
   const testimonials = [
     {
-      quote: "We closed a €50k deal because we could show a Trust Passport.",
+      quote: "We closed our biggest deal because we could show a verified Trust Passport. The client chose us specifically because of this.",
       author: "Sarah Chen",
-      role: "CEO, Nova Automation"
+      role: "CEO, Nova Automation",
+      metric: "€50k deal closed"
     },
     {
-      quote: "What used to take 2 weeks now takes 2 hours. Game changer.",
+      quote: "What used to take our team 2 weeks of documentation now happens automatically. The ROI was immediate.",
       author: "Marcus Weber",
-      role: "CTO, AI Works GmbH"
+      role: "CTO, AI Works GmbH",
+      metric: "80% time saved"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden noise">
       {/* Navigation */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${mounted ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="mx-2 sm:mx-4 mt-2 sm:mt-4">
-          <nav className="glass rounded-xl sm:rounded-2xl border shadow-lg">
-            <div className="container flex h-14 sm:h-16 items-center justify-between px-3 sm:px-6">
-              <Link href="/" className="flex items-center gap-2">
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${mounted ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+        <div className="mx-4 mt-4">
+          <nav className="glass rounded-2xl border border-white/5">
+            <div className="flex h-14 items-center justify-between px-6">
+              <Link href="/" className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-lg blur opacity-50" />
-                  <div className="relative bg-gradient-to-r from-blue-600 to-violet-600 text-white p-1.5 sm:p-2 rounded-lg">
-                    <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-xl" />
+                  <div className="relative bg-gradient-to-br from-blue-500 to-violet-500 p-2 rounded-xl">
+                    <Shield className="h-5 w-5 text-white" />
                   </div>
                 </div>
-                <span className="font-bold text-base sm:text-xl truncate">AI Trust Layer</span>
+                <span className="font-semibold text-lg tracking-tight">TrustLayer</span>
               </Link>
               
-              {/* Desktop Navigation */}
               <div className="hidden md:flex items-center gap-8">
-                <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="#features" className="text-sm text-white/60 hover:text-white transition-colors">
                   Features
                 </Link>
-                <Link href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <Link href="#how-it-works" className="text-sm text-white/60 hover:text-white transition-colors">
                   How it Works
+                </Link>
+                <Link href="#pricing" className="text-sm text-white/60 hover:text-white transition-colors">
+                  Pricing
                 </Link>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Link href="/dashboard" className="hidden sm:block">
-                  <Button variant="ghost" size="sm">Sign In</Button>
+                  <Button variant="ghost" size="sm" className="text-white/70 hover:text-white hover:bg-white/5">
+                    Sign In
+                  </Button>
                 </Link>
                 <Link href="/dashboard">
-                  <Button size="sm" className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-xs sm:text-sm">
+                  <Button size="sm" className="bg-white text-black hover:bg-white/90 font-medium">
                     Get Started
                   </Button>
                 </Link>
-                
-                {/* Mobile Menu Button */}
                 <Button 
                   variant="ghost" 
-                  size="icon" 
-                  className="md:hidden"
+                  size="icon"
+                  className="md:hidden text-white"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 >
                   {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -136,29 +150,16 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Mobile Menu */}
             {mobileMenuOpen && (
-              <div className="md:hidden border-t bg-background/95 backdrop-blur-lg">
-                <div className="flex flex-col p-4 gap-2">
-                  <Link 
-                    href="#features" 
-                    className="py-2 px-4 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+              <div className="md:hidden border-t border-white/5 p-4">
+                <div className="flex flex-col gap-2">
+                  <Link href="#features" className="py-2 px-4 rounded-lg hover:bg-white/5 text-white/70 hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     Features
                   </Link>
-                  <Link 
-                    href="#how-it-works" 
-                    className="py-2 px-4 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+                  <Link href="#how-it-works" className="py-2 px-4 rounded-lg hover:bg-white/5 text-white/70 hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     How it Works
                   </Link>
-                  <Link 
-                    href="/dashboard" 
-                    className="py-2 px-4 rounded-lg hover:bg-muted transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
+                  <Link href="/dashboard" className="py-2 px-4 rounded-lg hover:bg-white/5 text-white/70 hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>
                     Dashboard
                   </Link>
                 </div>
@@ -169,84 +170,92 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse-glow" />
-          <div className="absolute bottom-0 right-1/4 w-48 sm:w-96 h-48 sm:h-96 bg-violet-500/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '2s' }} />
-        </div>
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32">
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-radial" />
+        <div className="absolute inset-0 bg-grid opacity-50" />
+        
+        {/* Floating Elements */}
+        <div className="absolute top-1/4 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse-subtle" />
+        <div className="absolute bottom-1/4 right-10 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl animate-pulse-subtle" style={{ animationDelay: '2s' }} />
 
-        <div className="container px-4 mx-auto">
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-4xl mx-auto text-center">
-            <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <Badge className="mb-4 sm:mb-6 px-3 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm bg-blue-500/10 text-blue-600 border-blue-200">
-                <Sparkles className="w-3 h-3 mr-1" />
-                AI Act 2024 Compliant
-              </Badge>
+            {/* Badge */}
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 ${mounted ? 'animate-fade-in-up' : 'opacity-0'}`}>
+              <Sparkles className="h-4 w-4 text-blue-400" />
+              <span className="text-sm text-white/70">Now with AI Act 2024 Compliance</span>
             </div>
 
-            <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6 transition-all duration-1000 delay-100 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              Turn AI Compliance
-              <span className="block gradient-text mt-1 sm:mt-2">Into Client Trust</span>
+            {/* Heading */}
+            <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight mb-6 ${mounted ? 'animate-fade-in-up delay-100' : 'opacity-0'}`}>
+              <span className="text-white">Compliance that</span>
+              <br />
+              <span className="gradient-text">closes deals</span>
             </h1>
 
-            <p className={`text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-10 px-2 transition-all duration-1000 delay-200 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              Transform regulatory requirements into your competitive advantage. Create living Trust Passports for every AI system.
+            {/* Subtitle */}
+            <p className={`text-lg sm:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed ${mounted ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}>
+              Transform regulatory requirements into your competitive advantage. 
+              Create living Trust Passports that win enterprise clients.
             </p>
 
-            <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-10 sm:mb-16 transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            {/* CTA Buttons */}
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center mb-16 ${mounted ? 'animate-fade-in-up delay-300' : 'opacity-0'}`}>
               <Link href="/dashboard">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14 shadow-glow w-full sm:w-auto">
+                <Button size="lg" className="bg-white text-black hover:bg-white/90 h-12 px-8 text-base font-medium btn-shine">
                   Start Free Trial
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14 w-full sm:w-auto">
-                View Demo
+              <Button size="lg" variant="outline" className="border-white/10 bg-white/5 hover:bg-white/10 h-12 px-8 text-base">
+                <Play className="mr-2 h-4 w-4" />
+                Watch Demo
               </Button>
             </div>
 
-            {/* Dashboard Preview - Mobile Optimized */}
-            <div className={`relative mx-auto max-w-5xl transition-all duration-1000 delay-500 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 rounded-xl sm:rounded-2xl blur opacity-30" />
-              <div className="relative glass rounded-lg sm:rounded-xl overflow-hidden shadow-premium">
-                <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-3 sm:p-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex gap-1">
-                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500" />
-                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500" />
-                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500" />
-                    </div>
-                    <div className="flex-1 text-center text-[10px] sm:text-xs text-slate-400 font-mono">
-                      trustlayer.ai/dashboard
-                    </div>
+            {/* Dashboard Preview */}
+            <div className={`relative mx-auto max-w-5xl ${mounted ? 'animate-fade-in-up delay-500' : 'opacity-0'}`}>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-blue-500/20 rounded-2xl blur-2xl" />
+              <div className="relative glass-strong rounded-2xl overflow-hidden border border-white/10">
+                <div className="bg-[#0d0d0d] p-4">
+                  {/* Window Controls */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                    <div className="flex-1 text-center text-xs text-white/30 font-mono">trustlayer.ai/dashboard</div>
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-3 sm:mb-4">
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-4 gap-3 mb-4">
                     {[
                       { label: "Projects", value: "12", change: "+2" },
                       { label: "Passports", value: "8", change: "Live" },
                       { label: "Compliance", value: "98%", change: "" },
                       { label: "Sync", value: "5", change: "Active" },
                     ].map((stat, i) => (
-                      <div key={i} className="bg-slate-800/50 rounded-lg p-2 sm:p-3">
-                        <p className="text-[10px] sm:text-xs text-slate-400">{stat.label}</p>
-                        <p className="text-lg sm:text-2xl font-bold text-white">{stat.value}</p>
-                        {stat.change && <p className="text-[10px] sm:text-xs text-emerald-400">{stat.change}</p>}
+                      <div key={i} className="bg-white/[0.02] rounded-lg p-3 border border-white/5">
+                        <p className="text-xs text-white/40 mb-1">{stat.label}</p>
+                        <p className="text-xl font-semibold text-white">{stat.value}</p>
+                        {stat.change && <p className="text-xs text-emerald-400">{stat.change}</p>}
                       </div>
                     ))}
                   </div>
-                  <div className="space-y-1.5 sm:space-y-2">
+                  
+                  {/* Projects List */}
+                  <div className="space-y-2">
                     {[
-                      { name: "Voice Agent - Support", status: "Live" },
-                      { name: "Chatbot - Bookings", status: "Review" },
-                      { name: "AI Copilot - Sales", status: "Draft" },
+                      { name: "Voice Agent - Customer Support", status: "Live", risk: "Limited" },
+                      { name: "Chatbot - Appointment Booking", status: "Review", risk: "Minimal" },
+                      { name: "AI Copilot - Sales", status: "Draft", risk: "High" },
                     ].map((project, i) => (
-                      <div key={i} className="flex items-center justify-between bg-slate-800/30 rounded-lg p-2 sm:p-3">
-                        <div className="flex items-center gap-2">
+                      <div key={i} className="flex items-center justify-between bg-white/[0.02] rounded-lg p-3 border border-white/5">
+                        <div className="flex items-center gap-3">
                           <div className={`w-2 h-2 rounded-full ${project.status === 'Live' ? 'bg-emerald-500' : project.status === 'Review' ? 'bg-yellow-500' : 'bg-slate-500'}`} />
-                          <span className="text-xs sm:text-sm text-slate-200 truncate max-w-[120px] sm:max-w-none">{project.name}</span>
+                          <span className="text-sm text-white/80">{project.name}</span>
                         </div>
-                        <span className="text-[10px] sm:text-xs text-slate-500">{project.status}</span>
+                        <span className="text-xs px-2 py-1 rounded bg-white/5 text-white/50">{project.risk}</span>
                       </div>
                     ))}
                   </div>
@@ -257,70 +266,66 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 sm:py-20 border-y bg-slate-50/50">
-        <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-2xl sm:text-4xl md:text-5xl font-bold gradient-text mb-1 sm:mb-2">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
-              </div>
+      {/* Logos Section */}
+      <section className="py-12 border-y border-white/5">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-sm text-white/30 mb-8">Trusted by forward-thinking AI agencies</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-16 opacity-40">
+            {['Nova Automation', 'AI Works', 'TechCorp', 'MedClinic', 'SalesPro'].map((company) => (
+              <span key={company} className="text-lg font-medium text-white/60">{company}</span>
             ))}
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 sm:py-24">
-        <div className="container px-4 mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm" variant="secondary">Features</Badge>
-            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">Everything you need</h2>
-            <p className="text-sm sm:text-lg text-muted-foreground px-2">
-              From intake to passport to client approval. One platform.
+      <section id="features" className="py-24 lg:py-32">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <p className="text-sm text-blue-400 mb-4">Features</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-6">
+              Everything you need to sell trust
+            </h2>
+            <p className="text-lg text-white/50">
+              From first connection to client approval. One platform for your entire compliance lifecycle.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto">
             {features.map((feature, i) => (
               <div 
                 key={i} 
-                className="group relative p-4 sm:p-6 rounded-xl sm:rounded-2xl border bg-card hover:shadow-xl transition-all duration-300"
+                className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 card-hover"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 rounded-xl sm:rounded-2xl transition-opacity duration-300`} />
-                <div className={`inline-flex p-2.5 sm:p-3 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-3 sm:mb-4`}>
-                  <feature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/10 to-violet-500/10 border border-white/5 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <feature.icon className="h-6 w-6 text-blue-400" />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-1.5 sm:mb-2">{feature.title}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">{feature.description}</p>
+                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section id="how-it-works" className="py-16 sm:py-24 bg-slate-50/50">
-        <div className="container px-4 mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm" variant="secondary">How It Works</Badge>
-            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">Project to passport in minutes</h2>
+      {/* How it Works */}
+      <section id="how-it-works" className="py-24 lg:py-32 border-y border-white/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <p className="text-sm text-blue-400 mb-4">How it Works</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight">
+              From zero to compliant in minutes
+            </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 max-w-5xl mx-auto">
-            {[
-              { step: "01", title: "Create", desc: "Set up your AI system" },
-              { step: "02", title: "Answer", desc: "15-minute questionnaire" },
-              { step: "03", title: "Generate", desc: "Auto-create passport" },
-              { step: "04", title: "Share", desc: "Close deals faster" },
-            ].map((item, i) => (
-              <div key={i} className="relative text-center">
-                <div className="text-3xl sm:text-5xl font-bold text-slate-200 mb-2 sm:mb-4">{item.step}</div>
-                <h3 className="text-sm sm:text-lg font-semibold mb-1 sm:mb-2">{item.title}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">{item.desc}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {steps.map((step, i) => (
+              <div key={i} className="relative">
+                <div className="text-6xl font-bold text-white/5 mb-4">{step.number}</div>
+                <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
+                <p className="text-sm text-white/50 leading-relaxed">{step.description}</p>
                 {i < 3 && (
-                  <div className="hidden md:block absolute top-6 left-full w-full h-px bg-gradient-to-r from-slate-300 to-transparent" />
+                  <div className="hidden lg:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-white/10 to-transparent" />
                 )}
               </div>
             ))}
@@ -329,25 +334,34 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 sm:py-24">
-        <div className="container px-4 mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
-            <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm" variant="secondary">Testimonials</Badge>
-            <h2 className="text-2xl sm:text-4xl font-bold mb-3 sm:mb-4">Trusted by AI agencies</h2>
+      <section className="py-24 lg:py-32">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-16">
+            <p className="text-sm text-blue-400 mb-4">Testimonials</p>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight">
+              Trusted by industry leaders
+            </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 sm:gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {testimonials.map((t, i) => (
-              <div key={i} className="p-4 sm:p-8 rounded-xl sm:rounded-2xl border bg-card shadow-lg">
-                <div className="flex gap-1 mb-3 sm:mb-4">
+              <div key={i} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5">
+                <div className="flex items-center gap-1 mb-6">
                   {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-3 h-3 sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
+                    <svg key={j} className="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
                   ))}
                 </div>
-                <p className="text-sm sm:text-lg mb-4 sm:mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
-                <div>
-                  <p className="font-semibold text-sm sm:text-base">{t.author}</p>
-                  <p className="text-xs sm:text-sm text-muted-foreground">{t.role}</p>
+                <p className="text-lg text-white/80 leading-relaxed mb-6">"{t.quote}"</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold">{t.author}</p>
+                    <p className="text-sm text-white/50">{t.role}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-emerald-400">{t.metric}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -356,71 +370,73 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-violet-600 to-pink-600 opacity-10" />
-        <div className="container px-4 mx-auto relative">
+      <section className="py-24 lg:py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-500/5 to-transparent" />
+        <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-              Ready to turn compliance into your advantage?
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-6">
+              Ready to turn compliance into revenue?
             </h2>
-            <p className="text-base sm:text-xl text-muted-foreground mb-6 sm:mb-8 px-2">
-              Join 50+ AI agencies using AI Trust Layer to win bigger clients.
+            <p className="text-lg text-white/50 mb-10">
+              Join 50+ AI agencies already using TrustLayer to win bigger clients.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/dashboard">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700 text-base sm:text-lg px-6 sm:px-8 h-12 sm:h-14 w-full sm:w-auto">
+                <Button size="lg" className="bg-white text-black hover:bg-white/90 h-12 px-8 text-base font-medium">
                   Get Started Free
-                  <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
-            <p className="mt-4 text-xs sm:text-sm text-muted-foreground">
-              No credit card. 14-day trial.
+            <p className="mt-6 text-sm text-white/30">
+              No credit card required. 14-day free trial.
             </p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-8 sm:py-12">
-        <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8">
-            <div className="col-span-2 md:col-span-1">
+      <footer className="border-t border-white/5 py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            <div>
               <div className="flex items-center gap-2 mb-4">
-                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-                <span className="font-bold text-base sm:text-lg">AI Trust Layer</span>
+                <div className="bg-gradient-to-br from-blue-500 to-violet-500 p-1.5 rounded-lg">
+                  <Shield className="h-4 w-4 text-white" />
+                </div>
+                <span className="font-semibold">TrustLayer</span>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground">
+              <p className="text-sm text-white/40">
                 Transform AI compliance into client trust.
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-sm">Product</h4>
-              <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                <li>Features</li>
-                <li>Pricing</li>
-                <li>Integrations</li>
+              <h4 className="font-medium mb-4 text-sm">Product</h4>
+              <ul className="space-y-2 text-sm text-white/40">
+                <li><Link href="#" className="hover:text-white transition-colors">Features</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Pricing</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Integrations</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-sm">Company</h4>
-              <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                <li>About</li>
-                <li>Blog</li>
-                <li>Contact</li>
+              <h4 className="font-medium mb-4 text-sm">Company</h4>
+              <ul className="space-y-2 text-sm text-white/40">
+                <li><Link href="#" className="hover:text-white transition-colors">About</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Blog</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-3 text-sm">Legal</h4>
-              <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                <li>Privacy</li>
-                <li>Terms</li>
-                <li>Security</li>
+              <h4 className="font-medium mb-4 text-sm">Legal</h4>
+              <ul className="space-y-2 text-sm text-white/40">
+                <li><Link href="#" className="hover:text-white transition-colors">Privacy</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Terms</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Security</Link></li>
               </ul>
             </div>
           </div>
-          <div className="border-t pt-6 sm:pt-8 text-center text-xs sm:text-sm text-muted-foreground">
-            © 2026 AI Trust Layer. All rights reserved.
+          <div className="pt-8 border-t border-white/5 text-center text-sm text-white/30">
+            © 2026 TrustLayer. All rights reserved.
           </div>
         </div>
       </footer>
