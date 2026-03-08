@@ -49,11 +49,13 @@ async function main() {
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
-        { name: 'Agencies', description: 'Agency management' },
+        { name: 'Health', description: 'Health checks' },
         { name: 'Clients', description: 'Client management' },
         { name: 'Projects', description: 'AI project management' },
         { name: 'Intake', description: 'Compliance intake flow' },
         { name: 'Evidence', description: 'Evidence management' },
+        { name: 'Passports', description: 'Trust Passport management' },
+        { name: 'Integrations', description: 'Third-party integrations' }
       ]
     }
   });
@@ -75,12 +77,14 @@ async function main() {
     
     if (error.validation) {
       return reply.status(400).send({
+        success: false,
         error: 'Validation Error',
         message: error.message
       });
     }
     
     return reply.status(500).send({
+      success: false,
       error: 'Internal Server Error',
       message: process.env.NODE_ENV === 'development' ? error.message : 'Something went wrong'
     });
@@ -89,6 +93,7 @@ async function main() {
   // Not found handler
   server.setNotFoundHandler((request, reply) => {
     reply.status(404).send({
+      success: false,
       error: 'Not Found',
       message: `Route ${request.method} ${request.url} not found`
     });
